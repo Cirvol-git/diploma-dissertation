@@ -1,0 +1,65 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+table {
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 100px;
+}
+
+table, tr, td{
+  padding: 8px;
+  border: 1px solid black;
+}
+
+button.fix-later{
+  position: absolute;
+  bottom: 50px;
+  left: 210px;
+}
+
+div.upload {
+  position: relative;
+  top: 5px;
+}
+
+div.pomeri {
+  margin-left: 10%;
+  margin-right: 10%;
+  border-style: outset; 
+  height: 630px;
+}
+
+button.uvuci {
+  position: relative;
+  top: 10px;
+}
+
+.uvucix2 {
+  position: relative;
+  top: 20px;
+}
+
+i {
+  cursor: pointer;
+}
