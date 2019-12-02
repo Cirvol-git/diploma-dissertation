@@ -1,4 +1,5 @@
 import axios from 'axios'
+import M from "materialize-css";
 
 export const getAll = () => {
     return (dispatch, getState) => {
@@ -8,7 +9,9 @@ export const getAll = () => {
                 dispatch({ type: "GET_ALL", res: res.data })
             }).catch(error => {
                 console.log("error", error.response);
-                alert(error.response.data)
+                if (error.response) {
+                    M.toast({ html: error.response.data, classes: 'teal' });
+                }
             })
     }
 }
@@ -18,11 +21,11 @@ export const getFix = () => {
         axios.get("http://localhost:8080/api/fix")
             .then(res => {
                 console.log("getFix()", res);
-                alert("File fixed successfully with " + res.data.errorCount + " errors")
+                M.toast({ html: 'File fixed successfully with ' + res.data.errorCount + ' error(s)', classes: 'teal' });
                 dispatch({ type: "GET_FIX", res: res.data })
             }).catch(error => {
                 console.log("error", error.response);
-                alert(error.response.data)
+                M.toast({ html: error.response.data, classes: 'teal' });
             })
     }
 }
@@ -44,7 +47,7 @@ export const getDownload = () => {
                 // dispatch({ type: "GET_DOWNLOAD", res: res.data })
             }).catch(error => {
                 console.log("error", error.response);
-                alert(error.response.data)
+                M.toast({ html: error.response.data, classes: 'teal' });
             })
     }
 }
@@ -58,11 +61,11 @@ export const uploadFile = (file) => {
         axios.post("http://localhost:8080/api", formData)
             .then(res => {
                 console.log("results of upload", res);
-                alert("File successfully uploaded.");
+                M.toast({ html: 'File successfully uploaded', classes: 'teal' });
                 dispatch({ type: "UPLOAD_FILE", res: res.data });
             }).catch(error => {
                 console.log("error", error.response);
-                alert(error.response.data)
+                M.toast({ html: error.response.data, classes: 'teal' });
             })
     }
 }
@@ -72,10 +75,11 @@ export const removeFix = () => {
         axios.delete("http://localhost:8080/api/fix")
             .then(res => {
                 console.log("removeFix()", res);
+                M.toast({ html: 'Fixed file successfully deleted', classes: 'teal' });
                 dispatch({ type: "REMOVE_FIX" })
             }).catch(error => {
                 console.log("error", error.response);
-                alert(error.response.data)
+                M.toast({ html: error.response.data, classes: 'teal' });
             })
     }
 }
@@ -85,10 +89,11 @@ export const removeOne = (i) => {
         axios.delete("http://localhost:8080/api/" + i)
             .then(res => {
                 console.log("removeOne(" + i + ")", res);
+                M.toast({ html: 'File ' + getState().files[i].name + ' successfully deleted', classes: 'teal' });
                 dispatch({ type: "REMOVE_ONE", i })
             }).catch(error => {
                 console.log("error", error.response);
-                alert(error.response.data)
+                M.toast({ html: error.response.data, classes: 'teal' });
             })
     }
 }
@@ -98,10 +103,11 @@ export const removeAll = () => {
         axios.delete("http://localhost:8080/api")
             .then(res => {
                 console.log("removeAll()", res);
+                M.toast({ html: 'All files successfully deleted', classes: 'teal' });
                 dispatch({ type: "REMOVE_ALL" })
             }).catch(error => {
                 console.log("error", error.response);
-                alert(error.response.data)
+                M.toast({ html: error.response.data, classes: 'teal' });
             })
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { uploadFile, getFix, getAll, getDownload, removeOne, removeAll, removeFix } from '../actions/FileActions';
 import { connect } from 'react-redux';
+import M from "materialize-css";
 
 class UploadTab extends Component {
 
@@ -41,7 +42,7 @@ class UploadTab extends Component {
         if (this.state.selectedFile) {
             this.props.uploadFile(this.state.selectedFile);
         } else {
-            alert("You must first select file to upload.")
+            M.toast({ html: 'You must first select file to upload', classes: 'teal' });
         }
 
     }

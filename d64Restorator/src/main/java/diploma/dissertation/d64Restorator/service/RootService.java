@@ -32,7 +32,7 @@ public class RootService {
 
     public FileModel addOne(MultipartFile file) throws IOException {
 
-        if (Singleton.getInstance().getFiles().size() <= 5) {
+        if (Singleton.getInstance().getFiles().size() < 5) {
             FileModel ret = converter.toFileDTO(file);
             LOGGER.info("Trying to add file with name: " + ret.getName() + " and id: " + ret.getDiskId()[0] + " " + ret.getDiskId()[1]);
             if (Singleton.getInstance().getFiles().isEmpty()) {

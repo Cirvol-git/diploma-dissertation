@@ -7,4 +7,5 @@ How to run:
 3. Run it.
 4. Install NodeJS newer version
 5. Position through console to d64restorator-client
-6. Run "npm start"
+6. Run "npm install"
+7. Run "npm start"
