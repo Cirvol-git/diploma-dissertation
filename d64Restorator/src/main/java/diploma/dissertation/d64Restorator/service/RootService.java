@@ -22,25 +22,28 @@ public class RootService {
 
     private FileCoverterDTO converter;
 
-    public RootService(FileCoverterDTO converter) {
+    private Singleton singleton;
+
+    public RootService(FileCoverterDTO converter, Singleton singleton) {
         this.converter = converter;
+        this.singleton = singleton;
     }
 
     public List<FileModel> findAll() {
-        return Singleton.getInstance().getFiles();
+        return singleton.getFiles();
     }
 
     public FileModel addOne(MultipartFile file) throws IOException {
 
-        if (Singleton.getInstance().getFiles().size() < 5) {
+        if (singleton.getFiles().size() < 5) {
             FileModel ret = converter.toFileDTO(file);
             LOGGER.info("Trying to add file with name: " + ret.getName() + " and id: " + ret.getDiskId()[0] + " " + ret.getDiskId()[1]);
-            if (Singleton.getInstance().getFiles().isEmpty()) {
-                Singleton.getInstance().getFiles().add(ret);
+            if (singleton.getFiles().isEmpty()) {
+                singleton.getFiles().add(ret);
             } else {
-                FileModel compare = Singleton.getInstance().getFiles().get(0);
+                FileModel compare = singleton.getFiles().get(0);
                 if (new Byte(compare.getDiskId()[0]).compareTo(new Byte(ret.getDiskId()[0])) == 0 && new Byte(compare.getDiskId()[1]).compareTo(new Byte(ret.getDiskId()[1])) == 0) {
-                    Singleton.getInstance().getFiles().add(ret);
+                    singleton.getFiles().add(ret);
                 } else {
                     throw new DifferentDiscIdException("Upload of Disk with ID: " + ret.getDiskId()[0] + "" + ret.getDiskId()[1]
                             + " not allowed doe to Disk with ID: " + compare.getDiskId()[0] + "" + compare.getDiskId()[1] + " already being imported.");
@@ -52,8 +55,8 @@ public class RootService {
         }
     }
 
-    public FileModel fix() throws IOException{
-        FileModel best = Singleton.getInstance().getFiles()
+    public FileModel fix() throws IOException {
+        FileModel best = singleton.getFiles()
                 .stream()
                 .min(Comparator.comparing(FileModel::getErrorCount))
                 .orElseThrow(NullPointerException::new);
@@ -70,7 +73,7 @@ public class RootService {
         for (List error :
                 best.getErrorList()) {
             for (FileModel potentialFix :
-                    Singleton.getInstance().getFiles()) {
+                    singleton.getFiles()) {
                 if (potentialFix.getErrorList().stream().noneMatch(x -> error.get(0) == x.get(0) && error.get(1) == x.get(1))) {
                     int index, flagInd;
                     byte[] potFixBytes = potentialFix.getBytes();
@@ -119,29 +122,29 @@ public class RootService {
                 ret.setBytes(Arrays.copyOf(ret.getBytes(), 196608));
             }
         }
-        Singleton.getInstance().setFixedFile(ret);
+        singleton.setFixedFile(ret);
         LOGGER.info("Fixing files completed");
         return ret;
     }
 
     public byte[] download() {
-        if (Singleton.getInstance().getFixedFile() != null) {
-            return Singleton.getInstance().getFixedFile().getBytes();
+        if (singleton.getFixedFile() != null) {
+            return singleton.getFixedFile().getBytes();
         }
         return null;
     }
 
     public void removeFixed() {
-        Singleton.getInstance().setFixedFile(null);
+        singleton.setFixedFile(null);
     }
 
     public void removeOne(int index) {
-        Singleton.getInstance().getFiles().remove(index);
+        singleton.getFiles().remove(index);
     }
 
     public void removeAll() {
-        Singleton.getInstance().getFiles().clear();
-        Singleton.getInstance().setFixedFile(null);
+        singleton.getFiles().clear();
+        singleton.setFixedFile(null);
     }
 
 }

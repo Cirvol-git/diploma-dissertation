@@ -9,22 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-@Service
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Singleton {
 
-    private static Singleton instance = null;
     @Getter
     private ArrayList<FileModel> files = new ArrayList<>();
 
     @Getter
     @Setter
     private FileModel fixedFile;
-
-    public static Singleton getInstance() {
-        if (instance == null) {
-            instance = new Singleton();
-        }
-        return instance;
-    }
 }
