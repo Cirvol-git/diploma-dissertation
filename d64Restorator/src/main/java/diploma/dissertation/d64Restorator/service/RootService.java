@@ -58,17 +58,13 @@ public class RootService {
     public FileModel fix() throws IOException {
         FileModel best = singleton.getFiles()
                 .stream()
-                .min(Comparator.comparing(FileModel::getErrorCount))
+                .min((x1, x2) -> Integer.compare(x1.getErrorList().size(), x2.getErrorList().size()))
                 .orElseThrow(NullPointerException::new);
 
         byte[] fixedBytes = null, bestBytes;
 
         bestBytes = best.getBytes();
         fixedBytes = Arrays.copyOf(bestBytes, bestBytes.length);
-
-        if (best.getErrorList().size() == 0) {
-            //retturn new shit
-        }
 
         for (List error :
                 best.getErrorList()) {
@@ -102,20 +98,18 @@ public class RootService {
                     for (int i = index; i < index + 256; index++) {
 
                         fixedBytes[i] = potFixBytes[i];
-                        fixedBytes[fixedBytes.length - 683 + flagInd] = 1;
-
                     }
+                    fixedBytes[fixedBytes.length - 683 + flagInd] = 1;
                     break;
                 }
             }
         }
 
-
         MultipartFile fixedFile = new MockMultipartFile("fixed.d64",
                 best.getFile().getName(), best.getFile().getContentType(), fixedBytes);
 
         FileModel ret = converter.toFileDTO(fixedFile);
-        if (ret.getErrorCount() == 0) {
+        if (ret.getErrorList().size() == 0) {
             if (ret.getSectorView().size() == 35) {
                 ret.setBytes(Arrays.copyOf(ret.getBytes(), 174848));
             } else {

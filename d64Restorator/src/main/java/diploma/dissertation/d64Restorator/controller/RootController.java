@@ -34,7 +34,7 @@ public class RootController {
         return new ResponseEntity<List<FileModel>>(service.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/fix",
+    @RequestMapping(value = "/fix", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON)
     public ResponseEntity<FileModel> fix() throws IOException{
         LOGGER.info("Fixing uploaded files");

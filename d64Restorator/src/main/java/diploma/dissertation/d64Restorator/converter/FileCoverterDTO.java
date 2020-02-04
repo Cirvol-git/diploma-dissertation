@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 @Service
 public class FileCoverterDTO {
@@ -26,42 +27,26 @@ public class FileCoverterDTO {
 
 
         if (bytes.length == 174848 || bytes.length == 196608) {
-            ret.setErrorCount(0);
             for (int i = 0; i < 17; i++) {
-                track = new ArrayList<>();
-                for (int j = 0; j < 21; j++) {
-                    track.add(true);
-                }
+                track = new ArrayList<>(Collections.nCopies(21, Boolean.TRUE));
                 ret.getSectorView().add(track);
             }
             for (int i = 0; i < 7; i++) {
-                track = new ArrayList<>();
-                for (int j = 0; j < 19; j++) {
-                    track.add(true);
-                }
+                track = new ArrayList<>(Collections.nCopies(19, Boolean.TRUE));
                 ret.getSectorView().add(track);
             }
             for (int i = 0; i < 6; i++) {
-                track = new ArrayList<>();
-                for (int j = 0; j < 18; j++) {
-                    track.add(true);
-                }
+                track = new ArrayList<>(Collections.nCopies(18, Boolean.TRUE));
                 ret.getSectorView().add(track);
             }
             if (bytes.length == 174848) {
                 for (int i = 0; i < 5; i++) {
-                    track = new ArrayList<>();
-                    for (int j = 0; j < 17; j++) {
-                        track.add(true);
-                    }
+                    track = new ArrayList<>(Collections.nCopies(17, Boolean.TRUE));
                     ret.getSectorView().add(track);
                 }
             } else {
                 for (int i = 0; i < 10; i++) {
-                    track = new ArrayList<>();
-                    for (int j = 0; j < 17; j++) {
-                        track.add(true);
-                    }
+                    track = new ArrayList<>(Collections.nCopies(17, Boolean.TRUE));
                     ret.getSectorView().add(track);
                 }
             }
@@ -69,10 +54,16 @@ public class FileCoverterDTO {
             return ret;
         } else if (bytes.length == 175531) {
             for (int i = bytes.length - 683; i < bytes.length; i++) {
-                if ((i - 174848) % 21 == 0 && i < bytes.length - 683 + 21 * 17
-                        || ((i - 174848 - 21 * 17) % 19 == 0 && (bytes.length - 683 + 21 * 17) <= i && i < (bytes.length - 683 + 21 * 17 + 19 * 7))
-                        || ((i - 174848 - 21 * 17 - 19 * 7) % 18 == 0 && (bytes.length - 683 + 21 * 17 + 19 * 7) <= i && i < (bytes.length - 683 + 21 * 17 + 19 * 7 + 18 * 6))
-                        || ((i - 174848 - 21 * 17 - 19 * 7 - 18 * 6) % 17 == 0 && (bytes.length - 683 + 21 * 17 + 19 * 7 + 18 * 6) <= i)
+                if ((i - 174848) % 21 == 0
+                        && i < bytes.length - 683 + 21 * 17
+                    || ((i - 174848 - 21 * 17) % 19 == 0
+                        && (bytes.length - 683 + 21 * 17) <= i
+                        && i < (bytes.length - 683 + 21 * 17 + 19 * 7))
+                    || ((i - 174848 - 21 * 17 - 19 * 7) % 18 == 0
+                        && (bytes.length - 683 + 21 * 17 + 19 * 7) <= i
+                        && i < (bytes.length - 683 + 21 * 17 + 19 * 7 + 18 * 6))
+                    || ((i - 174848 - 21 * 17 - 19 * 7 - 18 * 6) % 17 == 0
+                        && (bytes.length - 683 + 21 * 17 + 19 * 7 + 18 * 6) <= i)
                 ) {
                     if (track != null) {
                         ret.getSectorView().add(track);
@@ -89,14 +80,19 @@ public class FileCoverterDTO {
                 ret.setDiskId(new byte[]{bytes[91392 + 162], bytes[91392 + 163]});
             }
             ret.getSectorView().add(track);
-            ret.setErrorCount(count);
             return ret;
         } else if (bytes.length == 197376) {
             for (int i = bytes.length - 768; i < bytes.length; i++) {
-                if ((i - 196608) % 21 == 0 && i < bytes.length - 768 + 21 * 17
-                        || ((i - 196608 - 21 * 17) % 19 == 0 && (bytes.length - 768 + 21 * 17) <= i && i < (bytes.length - 768 + 21 * 17 + 19 * 7))
-                        || ((i - 196608 - 21 * 17 - 19 * 7) % 18 == 0 && (bytes.length - 768 + 21 * 17 + 19 * 7) <= i && i < (bytes.length - 768 + 21 * 17 + 19 * 7 + 18 * 6)
-                        || ((i - 196608 - 21 * 17 - 19 * 7 - 18 * 6) % 17 == 0) && (bytes.length - 768 + 21 * 17 + 19 * 7 + 18 * 6) <= i)
+                if ((i - 196608) % 21 == 0
+                        && i < bytes.length - 768 + 21 * 17
+                    || ((i - 196608 - 21 * 17) % 19 == 0
+                        && (bytes.length - 768 + 21 * 17) <= i
+                        && i < (bytes.length - 768 + 21 * 17 + 19 * 7))
+                    || ((i - 196608 - 21 * 17 - 19 * 7) % 18 == 0
+                        && (bytes.length - 768 + 21 * 17 + 19 * 7) <= i
+                        && i < (bytes.length - 768 + 21 * 17 + 19 * 7 + 18 * 6)
+                    || ((i - 196608 - 21 * 17 - 19 * 7 - 18 * 6) % 17 == 0)
+                        && (bytes.length - 768 + 21 * 17 + 19 * 7 + 18 * 6) <= i)
                 ) {
                     if (track != null) {
                         ret.getSectorView().add(track);
@@ -113,7 +109,6 @@ public class FileCoverterDTO {
                 ret.setDiskId(new byte[]{bytes[91392 + 162], bytes[91392 + 163]});
             }
             ret.getSectorView().add(track);
-            ret.setErrorCount(count);
             return ret;
         } else {
             throw new UnsupportedFileTypeException("Type of uploaded file is unsupported");

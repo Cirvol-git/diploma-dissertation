@@ -14,15 +14,13 @@ public class FileModel {
 
     private byte[] diskId;
 
-    private Integer errorCount;
-
     @JsonIgnore
     private MultipartFile file;
 
     private byte[] bytes;
 
-    private ArrayList<List<Integer>> errorList = new ArrayList<>();
+    private List<List<Integer>> errorList = new ArrayList<>();
 
-    private ArrayList<List<Boolean>> sectorView = new ArrayList<>();
+    private List<List<Boolean>> sectorView = new ArrayList<>();
 
 }
